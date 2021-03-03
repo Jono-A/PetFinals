@@ -16,4 +16,7 @@
     <string name="breed">Breed</string>
     <string name="about_label">About</string>
     <string name="share">Share</string>
+    <string name="pet_age">Pet Age</string>
+    <string name="name">Name</string>
+    <string name="gender_icon">Gender Icon</string>
 </resources>

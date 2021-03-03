@@ -13,7 +13,9 @@ class FavouriteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        (requireActivity() as HomeActivity).toolbar.title = "Favourite"
+
         return inflater.inflate(R.layout.fragment_favourite, container, false)
     }
 }

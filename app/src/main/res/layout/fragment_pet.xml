@@ -13,12 +13,13 @@
         android:layout_height="match_parent"
         tools:context=".PetFragment">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/pet_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
                 android:scaleType="centerCrop"
@@ -55,13 +56,32 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Precious"
-                        android:textColor="@color/black"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <TextView
+                            android:id="@+id/pet_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:text="@string/name" />
+
+                        <ImageView
+                            android:id="@+id/gender_icon"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:src="@mipmap/male"
+                            android:contentDescription="@string/gender_icon" />
+
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -82,10 +102,10 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/dob"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="08/05"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -104,10 +124,10 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/gender"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Female"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -126,10 +146,10 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/age"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Puppy"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -148,10 +168,10 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/breed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Dobermann"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -167,6 +187,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/about"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -184,7 +205,7 @@
                     android:orientation="vertical">
 
                     <com.ornach.nobobutton.NoboButton
-                        android:id="@+id/button"
+                        android:id="@+id/adopt_btn"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         app:nb_backgroundColor="@color/teal_200"
@@ -205,6 +226,7 @@
                         android:orientation="horizontal">
 
                         <com.ornach.nobobutton.NoboButton
+                            android:id="@+id/favourite_btn"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"
@@ -221,6 +243,7 @@
                             app:nb_textSize="14sp" />
 
                         <com.ornach.nobobutton.NoboButton
+                            android:id="@+id/book_a_visit_btn"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_marginStart="8dp"

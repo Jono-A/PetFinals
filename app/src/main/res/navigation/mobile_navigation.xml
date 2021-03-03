@@ -22,12 +22,12 @@
         tools:layout="@layout/fragment_favourite" />
     <fragment
         android:id="@+id/petFragment"
-        android:name="com.shorbgy.petsshelter.PetFragment"
+        android:name="com.shorbgy.petsshelter.ui.PetFragment"
         android:label="fragment_pet"
         tools:layout="@layout/fragment_pet" />
     <fragment
         android:id="@+id/shareFragment"
-        android:name="com.shorbgy.petsshelter.ShareFragment"
+        android:name="com.shorbgy.petsshelter.ui.ShareFragment"
         android:label="fragment_share"
         tools:layout="@layout/fragment_share" />
 </navigation>
