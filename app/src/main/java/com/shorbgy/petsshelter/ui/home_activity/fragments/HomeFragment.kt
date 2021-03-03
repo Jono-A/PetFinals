@@ -1,18 +1,17 @@
-package com.shorbgy.petsshelter.ui
+package com.shorbgy.petsshelter.ui.home_activity.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.adapters.PetsAdapter
 import com.shorbgy.petsshelter.databinding.FragmentHomeBinding
 import com.shorbgy.petsshelter.pojo.Pet
+import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
 
 class HomeFragment : Fragment() , OnPetsItemSelected{

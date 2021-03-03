@@ -19,4 +19,5 @@
     <string name="pet_age">Pet Age</string>
     <string name="name">Name</string>
     <string name="gender_icon">Gender Icon</string>
+    <string name="loading">Please Wait…</string>
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.shorbgy.petsshelter.ui.HomeFragment"
+        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,17 +17,17 @@
 
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.shorbgy.petsshelter.ui.FavouriteFragment"
+        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.FavouriteFragment"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
     <fragment
         android:id="@+id/petFragment"
-        android:name="com.shorbgy.petsshelter.ui.PetFragment"
+        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.PetFragment"
         android:label="fragment_pet"
         tools:layout="@layout/fragment_pet" />
     <fragment
         android:id="@+id/shareFragment"
-        android:name="com.shorbgy.petsshelter.ui.ShareFragment"
+        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.ShareFragment"
         android:label="fragment_share"
         tools:layout="@layout/fragment_share" />
 </navigation>

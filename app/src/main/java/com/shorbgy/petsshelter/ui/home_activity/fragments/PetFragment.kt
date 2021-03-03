@@ -1,4 +1,4 @@
-package com.shorbgy.petsshelter.ui
+package com.shorbgy.petsshelter.ui.home_activity.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.FragmentPetBinding
 import com.shorbgy.petsshelter.pojo.Pet
+import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import java.util.*
 
 class PetFragment : Fragment() {

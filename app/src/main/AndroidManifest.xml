@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PetsShelter">
         <activity
-            android:name=".ui.HomeActivity">
+            android:name=".ui.home_activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
