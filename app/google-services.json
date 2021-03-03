@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "274301223222",
+    "project_id": "pets-shelter-6afa9",
+    "storage_bucket": "pets-shelter-6afa9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274301223222:android:ea50d034a7a7bde0c33397",
+        "android_client_info": {
+          "package_name": "com.shorbgy.petsshelter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274301223222-pmf3nrn7uhgael7980kibqn3hlhcmdkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS6ROM8xOtDX-EIBF7VaPzMZ9_4qAu0xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274301223222-pmf3nrn7uhgael7980kibqn3hlhcmdkv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
