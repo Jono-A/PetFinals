@@ -14,9 +14,8 @@ import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
-import com.shorbgy.petsshelter.utils.OnShareItemSelected
 
-class HomeFragment : Fragment() , OnPetsItemSelected, OnShareItemSelected{
+class HomeFragment : Fragment() , OnPetsItemSelected{
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: PetsAdapter
@@ -32,12 +31,15 @@ class HomeFragment : Fragment() , OnPetsItemSelected, OnShareItemSelected{
 
         viewModel =  (requireActivity() as HomeActivity).viewModel
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        adapter = PetsAdapter(requireContext(), this, this)
+        adapter = PetsAdapter(requireContext(), this)
 
         binding.petsRv.adapter = adapter
 
         getPets()
 
+        binding.shareEt.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_shareFragment)
+        }
 
         return binding.root
     }
@@ -55,9 +57,5 @@ class HomeFragment : Fragment() , OnPetsItemSelected, OnShareItemSelected{
         bundle.putParcelable("pet", adapter.pets[pos])
 
         findNavController().navigate(R.id.action_homeFragment_to_petFragment, bundle)
-    }
-
-    override fun onShareSelected(pos: Int) {
-        findNavController().navigate(R.id.action_homeFragment_to_shareFragment)
     }
 }

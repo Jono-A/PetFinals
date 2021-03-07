@@ -1,62 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/share_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="@dimen/_8sdp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_image"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
-                    android:src="@mipmap/pick_gif_placeholder"/>
-
-                <EditText
-                    android:id="@+id/share_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background
-                        ="@drawable/edit_text_rounded_corners"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:padding="@dimen/_6sdp"
-                    android:hint="@string/share_a_pet"
-                    android:focusable="false"
-                    android:cursorVisible="false"
-                    android:inputType="none"
-                    tools:ignore="Autofill" />
-            </LinearLayout>
-
-            <View
-                android:background="#BBB"
-                android:layout_width = "match_parent"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"/>
-
-        </LinearLayout>
-
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -110,6 +58,4 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
 </layout>
