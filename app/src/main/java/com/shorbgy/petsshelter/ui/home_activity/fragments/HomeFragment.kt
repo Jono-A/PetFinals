@@ -12,6 +12,7 @@ import com.shorbgy.petsshelter.adapters.PetsAdapter
 import com.shorbgy.petsshelter.databinding.FragmentHomeBinding
 import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
+import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
 import com.shorbgy.petsshelter.utils.OnShareItemSelected
 
@@ -19,6 +20,8 @@ class HomeFragment : Fragment() , OnPetsItemSelected, OnShareItemSelected{
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: PetsAdapter
+    private lateinit var viewModel: HomeViewModel
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
 
@@ -27,40 +30,23 @@ class HomeFragment : Fragment() , OnPetsItemSelected, OnShareItemSelected{
 
         (requireActivity() as HomeActivity).toolbar.title = "Home"
 
+        viewModel =  (requireActivity() as HomeActivity).viewModel
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         adapter = PetsAdapter(requireContext(), this, this)
 
         binding.petsRv.adapter = adapter
 
-
-        val pets = mutableListOf<Pet>()
-
-        pets.add(Pet("", "","Kitty", "25/02",
-
-            "Female", "Small", "Cat", "",
-            "https://media.giphy.com/media/TA6Fq1irTioFO/giphy.gif"))
-
-        pets.add(Pet("", "","Za3tar", "25/02",
-            "Male", "Grown", "Dog", "",
-            "https://media.giphy.com/media/hkFgpYE8CRqog/giphy.gif"))
-
-        pets.add(Pet("", "","Zo2lot", "25/02",
-            "Male", "Medium", "Dog", "",
-            "https://media.giphy.com/media/Gx2vpQi2WPToc/giphy.gif"))
-
-        pets.add(Pet("", "","Rocky", "25/02",
-            "Male", "Grown", "Dog", "",
-            "https://media.giphy.com/media/ASsGSJEh0a63u/giphy.gif"))
-
-        pets.add(Pet("", "","Kot Kot", "25/02",
-            "Female", "Grown", "Cat", "",
-            "https://media.giphy.com/media/fbL0RLU92W7Oo/giphy.gif"))
-
-        adapter.pets = pets
-        adapter.notifyDataSetChanged()
+        getPets()
 
 
         return binding.root
+    }
+
+    private fun getPets(){
+        viewModel.petsMutableLiveData.observe(viewLifecycleOwner){
+            adapter.pets = it.reversed() as MutableList<Pet>
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onItemSelected(pos: Int) {
