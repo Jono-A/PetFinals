@@ -1,12 +1,8 @@
 package com.shorbgy.petsshelter.ui.home_activity
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +12,8 @@ import androidx.navigation.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.shorbgy.petsshelter.R
+import com.shorbgy.petsshelter.db.PetDatabase
+import com.shorbgy.petsshelter.repository.PetRepository
 
 
 class HomeActivity : AppCompatActivity(), ChipNavigationBar.OnItemSelectedListener{
@@ -34,7 +32,10 @@ class HomeActivity : AppCompatActivity(), ChipNavigationBar.OnItemSelectedListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        val db = PetDatabase.getDatabase(this)
+        val repository = PetRepository(db)
+        val factory = HomeViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
         navView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)

@@ -4,20 +4,24 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.shorbgy.petsshelter.pojo.Pet
+import com.shorbgy.petsshelter.repository.PetRepository
+import kotlinx.coroutines.launch
 import java.util.*
 
 
-class HomeViewModel: ViewModel(){
+class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
 
     companion object {
         private const val TAG = "HomeViewModel"
     }
+
 
     private var petReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Pets")
     private val petStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Pets")
@@ -60,7 +64,7 @@ class HomeViewModel: ViewModel(){
     }
 
     fun sharePet(pet: Pet){
-        petReference.child(pet.id.toString()).setValue(pet).addOnCompleteListener {
+        petReference.child(pet.id).setValue(pet).addOnCompleteListener {
             sharePetTaskMutableLiveData.postValue(it)
         }
     }
@@ -83,4 +87,14 @@ class HomeViewModel: ViewModel(){
             }
         })
     }
+
+    fun insertPet(pet: Pet) = viewModelScope.launch{
+        petRepository.insertPet(pet)
+    }
+
+    fun deletePet(pet: Pet) = viewModelScope.launch {
+        petRepository.deletePet(pet)
+    }
+
+    fun getPetsFromLocalDb() = petRepository.getPets()
 }

@@ -22,7 +22,11 @@
         android:id="@+id/favouriteFragment"
         android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_petFragment"
+            app:destination="@id/petFragment" />
+    </fragment>
     <fragment
         android:id="@+id/petFragment"
         android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.PetFragment"
