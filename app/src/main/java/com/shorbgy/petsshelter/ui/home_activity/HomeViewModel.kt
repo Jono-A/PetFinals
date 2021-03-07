@@ -4,13 +4,17 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.shorbgy.petsshelter.pojo.Pet
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
 class HomeViewModel: ViewModel(){
@@ -22,7 +26,8 @@ class HomeViewModel: ViewModel(){
     private val petReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Pets")
     private val petStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Pets")
 
-    val uploadImageTaskMutableLiveData = MutableLiveData<Task<Uri>>()
+    val uploadImageTaskMutableLiveData = MutableLiveData<Task<Uri>?>()
+    val sharePetTaskMutableLiveData = MutableLiveData<Task<Void>?>()
     val imageMutableLiveData = MutableLiveData<Uri?>()
 
 
@@ -46,5 +51,11 @@ class HomeViewModel: ViewModel(){
                     uploadImageTaskMutableLiveData.postValue(it)
                 }
             }
+    }
+
+    fun sharePet(pet: Pet){
+        petReference.child(pet.id.toString()).setValue(pet).addOnCompleteListener {
+            sharePetTaskMutableLiveData.postValue(it)
+        }
     }
 }

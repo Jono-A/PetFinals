@@ -6,6 +6,7 @@ import android.os.Parcelable
 data class Pet(
     val id: String?,
     val name: String?,
+    val owner: String?,
     val dateOfBirth: String?,
     val gender: String?,
     val age: String?,
@@ -21,9 +22,9 @@ data class Pet(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

@@ -11,14 +11,6 @@
         app:cnb_textColor="#FFF"/>
 
     <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_add_circle"
-        android:title="@string/share"
-        app:cnb_backgroundColor="#FF782B"
-        app:cnb_iconColor="#FFF"
-        app:cnb_textColor="#FFF"/>
-
-    <item
         android:id="@+id/menu_fav"
         android:icon="@drawable/ic_favorite"
         android:title="@string/favourite"

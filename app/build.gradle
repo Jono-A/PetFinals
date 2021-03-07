@@ -76,6 +76,13 @@ dependencies {
     // Image Picker
     implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
 
+    // Material EditText
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    // Circular ImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

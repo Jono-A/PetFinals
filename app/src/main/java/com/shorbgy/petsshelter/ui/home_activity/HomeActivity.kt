@@ -59,32 +59,9 @@ class HomeActivity : AppCompatActivity(), ChipNavigationBar.OnItemSelectedListen
                 navController.popBackStack()
                 navController.navigate(R.id.favouriteFragment)
             }
-            R.id.menu_share -> {
-                navController.popBackStack()
-                navController.navigate(R.id.shareFragment)
-            }
         }
     }
 
-    private fun uploadImage(fileUri: Uri?){
-
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setView(R.layout.progress)
-        val dialog: Dialog = builder.create()
-
-        dialog.show()
-
-        viewModel.uploadImage(fileUri)
-
-        viewModel.uploadImageTaskMutableLiveData.observe(this){
-            if(it.isSuccessful){
-                val imageUrl = it.result.toString()
-                Log.d(TAG, "onActivityResult: $imageUrl")
-            }
-
-            viewModel.uploadImageTaskMutableLiveData.removeObservers(this)
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

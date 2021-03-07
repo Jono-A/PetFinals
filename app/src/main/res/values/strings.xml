@@ -20,4 +20,11 @@
     <string name="name">Name</string>
     <string name="gender_icon">Gender Icon</string>
     <string name="loading">Please Wait…</string>
+    <string name="close">Close</string>
+    <string name="date">Date</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="share_a_pet">Share A Pet</string>
+    <string name="age_in_months">Age In Months</string>
 </resources>

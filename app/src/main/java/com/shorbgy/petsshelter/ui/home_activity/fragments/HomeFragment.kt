@@ -13,8 +13,9 @@ import com.shorbgy.petsshelter.databinding.FragmentHomeBinding
 import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
+import com.shorbgy.petsshelter.utils.OnShareItemSelected
 
-class HomeFragment : Fragment() , OnPetsItemSelected{
+class HomeFragment : Fragment() , OnPetsItemSelected, OnShareItemSelected{
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: PetsAdapter
@@ -27,30 +28,31 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
         (requireActivity() as HomeActivity).toolbar.title = "Home"
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        adapter = PetsAdapter(requireContext(), this)
+        adapter = PetsAdapter(requireContext(), this, this)
 
         binding.petsRv.adapter = adapter
 
 
         val pets = mutableListOf<Pet>()
 
-        pets.add(Pet("", "Kitty", "25/02",
+        pets.add(Pet("", "","Kitty", "25/02",
+
             "Female", "Small", "Cat", "",
             "https://media.giphy.com/media/TA6Fq1irTioFO/giphy.gif"))
 
-        pets.add(Pet("", "Za3tar", "25/02",
+        pets.add(Pet("", "","Za3tar", "25/02",
             "Male", "Grown", "Dog", "",
             "https://media.giphy.com/media/hkFgpYE8CRqog/giphy.gif"))
 
-        pets.add(Pet("", "Zo2lot", "25/02",
+        pets.add(Pet("", "","Zo2lot", "25/02",
             "Male", "Medium", "Dog", "",
             "https://media.giphy.com/media/Gx2vpQi2WPToc/giphy.gif"))
 
-        pets.add(Pet("", "Rocky", "25/02",
+        pets.add(Pet("", "","Rocky", "25/02",
             "Male", "Grown", "Dog", "",
             "https://media.giphy.com/media/ASsGSJEh0a63u/giphy.gif"))
 
-        pets.add(Pet("", "Kot Kot", "25/02",
+        pets.add(Pet("", "","Kot Kot", "25/02",
             "Female", "Grown", "Cat", "",
             "https://media.giphy.com/media/fbL0RLU92W7Oo/giphy.gif"))
 
@@ -67,5 +69,9 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
         bundle.putParcelable("pet", adapter.pets[pos])
 
         findNavController().navigate(R.id.action_homeFragment_to_petFragment, bundle)
+    }
+
+    override fun onShareSelected(pos: Int) {
+        findNavController().navigate(R.id.action_homeFragment_to_shareFragment)
     }
 }
