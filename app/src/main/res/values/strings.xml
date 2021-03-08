@@ -27,4 +27,19 @@
     <string name="female">Female</string>
     <string name="share_a_pet">Share A Pet</string>
     <string name="age_in_months">Age In Months</string>
+    <string name="login">Login</string>
+    <string name="welcome_please_login_to_your_account">Welcome, Please Login To Your Account</string>
+    <string name="welcome_msg">Hello, Sign In To Your Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="pet_icon">pet icon</string>
+    <string name="or">Or</string>
+    <string name="facebook_icon">facebook icon</string>
+    <string name="google_icon">google icon</string>
+    <string name="don_t_have_an_account">Don\'t Have An Account? Sign Up</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

@@ -10,4 +10,8 @@
     <color name="colorPrimary">#141932</color>
     <color name="colorPrimaryDark">#141932</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorBackground">#fff</color>
+    <color name="colorIcon">#cccccc</color>
+    <color name="colorTextInputBackground">#F7F7F7</color>
+    <color name="actionbarOpacity">#00000000</color>
 </resources>
