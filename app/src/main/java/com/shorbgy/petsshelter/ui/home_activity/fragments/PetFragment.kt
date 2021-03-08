@@ -71,7 +71,7 @@ class PetFragment : Fragment() {
     private fun checkPets(){
         viewModel.getPetsFromLocalDb().observe(viewLifecycleOwner, {
             for(pet in it){
-                petIds.add(pet.id)
+                petIds.add(pet.id!!)
             }
         })
 

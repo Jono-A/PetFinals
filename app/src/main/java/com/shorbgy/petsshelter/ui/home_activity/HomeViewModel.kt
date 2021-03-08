@@ -64,7 +64,7 @@ class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
     }
 
     fun sharePet(pet: Pet){
-        petReference.child(pet.id).setValue(pet).addOnCompleteListener {
+        petReference.child(pet.id!!).setValue(pet).addOnCompleteListener {
             sharePetTaskMutableLiveData.postValue(it)
         }
     }
@@ -73,7 +73,6 @@ class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
         val reference = FirebaseDatabase.getInstance().getReference("Pets")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                pets.clear()
                 snapshot.children.forEach { item ->
                     val pet = item.getValue(Pet::class.java)
                     pets.add(pet!!)

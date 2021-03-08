@@ -2,16 +2,15 @@ package com.shorbgy.petsshelter.pojo
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
 data class Pet(
 
-    @NonNull
-    @PrimaryKey
-    val id: String = "",
+    @PrimaryKey(autoGenerate = true)
+    var localId: Int? = null,
+    val id: String? = null,
     val name: String? = null,
     val owner: String? = null,
     val dateOfBirth: String? = null,
@@ -22,7 +21,8 @@ data class Pet(
     val imageUrl: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
+        parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -34,6 +34,7 @@ data class Pet(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(localId!!)
         parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(dateOfBirth)

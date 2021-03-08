@@ -103,7 +103,7 @@ class ShareFragment : Fragment() {
                             val about: String = binding.about.text.toString()
                             val imageUrl: String = uri.result.toString()
 
-                            val pet = Pet(id, name, owner, dateOfBirth, gender, age, breed, about, imageUrl)
+                            val pet = Pet(0, id, name, owner, dateOfBirth, gender, age, breed, about, imageUrl)
 
                             viewModel.sharePet(pet)
 

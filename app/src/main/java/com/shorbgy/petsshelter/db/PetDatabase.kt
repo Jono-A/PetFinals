@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.shorbgy.petsshelter.pojo.Pet
 
-@Database(entities = [Pet::class], version = 1)
+@Database(entities = [Pet::class], version = 2)
 abstract class PetDatabase: RoomDatabase() {
 
     abstract fun petDao(): PetDao

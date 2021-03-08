@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.adapters.PetsAdapter
 import com.shorbgy.petsshelter.databinding.FragmentHomeBinding
-import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
@@ -46,7 +45,7 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
 
     private fun getPets(){
         viewModel.petsMutableLiveData.observe(viewLifecycleOwner){
-            adapter.pets = it.reversed() as MutableList<Pet>
+            adapter.differ.submitList(it.reversed())
             adapter.notifyDataSetChanged()
         }
     }
@@ -54,7 +53,7 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
     override fun onItemSelected(pos: Int) {
         val bundle = Bundle()
 
-        bundle.putParcelable("pet", adapter.pets[pos])
+        bundle.putParcelable("pet", adapter.differ.currentList[pos])
 
         findNavController().navigate(R.id.action_homeFragment_to_petFragment, bundle)
     }

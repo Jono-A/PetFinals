@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shorbgy.petsshelter.R
@@ -19,8 +21,19 @@ class PetsAdapter(private val context: Context,
     class PetsViewHolder(itemView: View, val binding: PetItemBinding) : RecyclerView.ViewHolder(itemView)
 
 
+    private val differCallback = object: DiffUtil.ItemCallback<Pet>() {
 
-    var pets = mutableListOf<Pet>()
+        override fun areItemsTheSame(oldItem: Pet, newItem: Pet): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Pet, newItem: Pet): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetsViewHolder {
 
@@ -35,10 +48,10 @@ class PetsAdapter(private val context: Context,
 
     override fun onBindViewHolder(holder: PetsViewHolder, position: Int) {
 
-        holder.binding.petName.text = pets[position].name
+        holder.binding.petName.text = differ.currentList[position].name
 
         Glide.with(context)
-            .load(pets[position].imageUrl)
+            .load(differ.currentList[position].imageUrl)
             .into(holder.binding.petImage)
 
         holder.binding.petImage.setOnClickListener {
@@ -47,6 +60,6 @@ class PetsAdapter(private val context: Context,
     }
 
     override fun getItemCount(): Int {
-        return pets.size
+        return differ.currentList.size
     }
 }

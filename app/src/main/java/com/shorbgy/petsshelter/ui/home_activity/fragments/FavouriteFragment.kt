@@ -9,10 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.adapters.PetsAdapter
 import com.shorbgy.petsshelter.databinding.FragmentFavouriteBinding
-import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
@@ -53,8 +53,13 @@ class FavouriteFragment : Fragment(), OnPetsItemSelected{
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.adapterPosition
-                val pet = adapter.pets[pos]
+                val pet = adapter.differ.currentList[pos]
                 viewModel.deletePet(pet)
+
+                Snackbar.make(requireView(), "Deleted Successfully", Snackbar.LENGTH_LONG)
+                        .setAction("Undo") {
+                    viewModel.insertPet(pet)
+                }.show()
             }
         }
 
@@ -65,7 +70,7 @@ class FavouriteFragment : Fragment(), OnPetsItemSelected{
 
     private fun getPets(){
         viewModel.getPetsFromLocalDb().observe(viewLifecycleOwner, {
-            adapter.pets = it as MutableList<Pet>
+            adapter.differ.submitList(it.reversed())
             adapter.notifyDataSetChanged()
         })
 
@@ -73,7 +78,7 @@ class FavouriteFragment : Fragment(), OnPetsItemSelected{
     override fun onItemSelected(pos: Int) {
 
         val bundle = Bundle()
-        bundle.putParcelable("pet", adapter.pets[pos])
+        bundle.putParcelable("pet", adapter.differ.currentList[pos])
 
         findNavController().navigate(R.id.action_favouriteFragment_to_petFragment, bundle)
     }
