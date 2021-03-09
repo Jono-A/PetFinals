@@ -42,4 +42,7 @@
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="sign_up">Sign Up</string>
+    <string name="facebook_app_id">251984249746021</string>
+    <string name="fb_login_protocol_scheme">fb251984249746021</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

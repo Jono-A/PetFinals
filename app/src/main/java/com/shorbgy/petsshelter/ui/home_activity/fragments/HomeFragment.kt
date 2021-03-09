@@ -1,28 +1,43 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FirebaseAuth
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.adapters.PetsAdapter
 import com.shorbgy.petsshelter.databinding.FragmentHomeBinding
+import com.shorbgy.petsshelter.ui.LoginActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
 
+
 class HomeFragment : Fragment() , OnPetsItemSelected{
+
+    companion object {
+        private const val TAG = "HomeFragment"
+    }
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: PetsAdapter
     private lateinit var viewModel: HomeViewModel
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View{
 
+        setHasOptionsMenu(true)
         (requireActivity() as HomeActivity).toolbar.visibility = View.VISIBLE
         (requireActivity() as HomeActivity).navView.visibility = View.VISIBLE
 
@@ -40,7 +55,20 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
             findNavController().navigate(R.id.action_homeFragment_to_shareFragment)
         }
 
+        getUserPhoto()
+
         return binding.root
+    }
+
+    private fun getUserPhoto(){
+
+        val photoUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
+
+        Log.d(TAG, "getUserPhoto: $photoUrl")
+
+        Glide.with(requireContext())
+            .load(photoUrl)
+            .into(binding.userImage)
     }
 
     private fun getPets(){
@@ -48,6 +76,24 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
             adapter.differ.submitList(it.reversed())
             adapter.notifyDataSetChanged()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_sign_out){
+            FirebaseAuth.getInstance().signOut()
+            LoginManager.getInstance().logOut()
+            startActivity(
+                Intent(requireActivity(), LoginActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            )
+            requireActivity().finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onItemSelected(pos: Int) {

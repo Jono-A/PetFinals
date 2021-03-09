@@ -35,7 +35,7 @@
                         android:id="@+id/user_image"
                         android:layout_width="@dimen/_36sdp"
                         android:layout_height="@dimen/_36sdp"
-                        android:src="@mipmap/pick_gif_placeholder"/>
+                        android:src="@mipmap/person_placeholdr"/>
                     <EditText
                         android:id="@+id/share_et"
                         android:layout_width="match_parent"
