@@ -15,7 +15,7 @@
         tools:ignore="AllowBackup">
 
 
-        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.register_activity.RegisterActivity" />
         <activity android:name=".ui.home_activity.HomeActivity" />
         <activity android:name=".ui.LoginActivity">
             <intent-filter>

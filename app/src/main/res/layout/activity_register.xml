@@ -116,7 +116,8 @@
                 android:imeOptions="actionNext"
                 android:minWidth="320dp"
                 android:minHeight="45dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="phone"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -148,7 +149,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/button_signin"
+            android:id="@+id/sign_up_btn"
             style="@style/Button1"
             android:layout_width="342dp"
             android:layout_height="wrap_content"

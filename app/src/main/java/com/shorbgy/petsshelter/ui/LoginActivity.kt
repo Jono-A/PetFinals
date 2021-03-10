@@ -21,6 +21,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.ActivityLoginBinding
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
+import com.shorbgy.petsshelter.ui.register_activity.RegisterActivity
 
 
 class LoginActivity : AppCompatActivity() {
