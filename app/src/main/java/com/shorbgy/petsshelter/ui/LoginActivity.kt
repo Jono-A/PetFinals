@@ -1,7 +1,10 @@
 package com.shorbgy.petsshelter.ui
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +21,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.ActivityLoginBinding
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
@@ -39,10 +44,13 @@ class LoginActivity : AppCompatActivity() {
     lateinit var  binding : ActivityLoginBinding
 
 
+    private lateinit var userDatabaseReference: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
 
@@ -60,6 +68,20 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonSignup.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.buttonSignin.setOnClickListener {
+            when {
+                TextUtils.isEmpty(binding.etUsername.text) -> {
+                    Toast.makeText(this, "Please Enter Your Email", Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(binding.etPassword.text) -> {
+                    Toast.makeText(this, "Please Enter Your Password", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    loginWithEmailAndPassword(binding.etUsername.text.toString(), binding.etPassword.text.toString())
+                }
+            }
         }
 
         binding.facebookSignInButton.registerCallback(
@@ -128,6 +150,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
+                    createUser()
                     val intent = Intent(this, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
@@ -147,6 +170,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    createUser()
                     val intent = Intent(this, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
@@ -157,5 +181,39 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             }
+    }
+
+    private fun createUser(){
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userMap: HashMap<String, Any?> = HashMap()
+        userMap["email"] = currentUser?.email
+        userMap["image_url"] = currentUser?.photoUrl.toString()
+        userMap["phone"] = "None"
+        userMap["username"] = currentUser?.email?.replaceAfter("@", "")
+            ?.replace("@", "")
+        userDatabaseReference.child(currentUser!!.uid)
+            .setValue(userMap)
+    }
+
+    private fun loginWithEmailAndPassword(email: String, password: String){
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.progress)
+        val dialog: Dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener{
+
+            dialog.dismiss()
+
+            if (it.isSuccessful){
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this, it.exception?.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

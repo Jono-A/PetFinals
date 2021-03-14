@@ -11,12 +11,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.shorbgy.petsshelter.pojo.Pet
+import com.shorbgy.petsshelter.pojo.User
 import com.shorbgy.petsshelter.repository.PetRepository
 import kotlinx.coroutines.launch
 import java.util.*
 
 
-class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
+class HomeViewModel(private val petRepository: PetRepository, private val uid: String): ViewModel(){
 
     companion object {
         private const val TAG = "HomeViewModel"
@@ -24,11 +25,14 @@ class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
 
 
     private var petReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Pets")
+    private var userReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
     private val petStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Pets")
 
     private val pets = mutableListOf<Pet>()
 
     val petsMutableLiveData = MutableLiveData<MutableList<Pet>>()
+    val usersMutableLiveData = MutableLiveData<User>()
+
 
     val uploadImageTaskMutableLiveData = MutableLiveData<Task<Uri>?>()
     val sharePetTaskMutableLiveData = MutableLiveData<Task<Void>?>()
@@ -37,6 +41,7 @@ class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
 
     init {
         getPets()
+        getUser()
     }
 
 
@@ -79,6 +84,20 @@ class HomeViewModel(private val petRepository: PetRepository): ViewModel(){
                 }
 
                 petsMutableLiveData.postValue(pets)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "onCancelled: ${error.message}")
+            }
+        })
+    }
+
+    private fun getUser(){
+        userReference.child(uid).addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                usersMutableLiveData.postValue(user)
             }
 
             override fun onCancelled(error: DatabaseError) {

@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.shorbgy.petsshelter.R
@@ -62,13 +61,17 @@ class HomeFragment : Fragment() , OnPetsItemSelected{
 
     private fun getUserPhoto(){
 
-        val photoUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
+        viewModel.usersMutableLiveData.observe(viewLifecycleOwner, {
 
-        Log.d(TAG, "getUserPhoto: $photoUrl")
+            val photoUrl = it.image_url
+            Log.d(TAG, "getUserPhoto: $photoUrl")
 
-        Glide.with(requireContext())
-            .load(photoUrl)
-            .into(binding.userImage)
+            Glide.with(requireContext())
+                .load(photoUrl)
+                .into(binding.userImage)
+        })
+
+
     }
 
     private fun getPets(){

@@ -100,8 +100,8 @@ class RegisterActivity : AppCompatActivity() {
                                         viewModel
                                             .updateUserImage(FirebaseAuth.getInstance().currentUser!!.uid, imageUrl)
                                             .addOnCompleteListener{uTask->
+                                                dialog.dismiss()
                                                 if (uTask.isSuccessful){
-                                                    dialog.dismiss()
                                                     val intent = Intent(this, HomeActivity::class.java)
                                                     intent.addFlags(
                                                         Intent.FLAG_ACTIVITY_CLEAR_TASK or
@@ -118,12 +118,14 @@ class RegisterActivity : AppCompatActivity() {
                                 })
 
                             }else{
+                                dialog.dismiss()
                                 Toast.makeText(this, "An Error Occurred", Toast.LENGTH_SHORT).show()
                             }
                         }
 
 
                 }else{
+                    dialog.dismiss()
                     Toast.makeText(this, sTask.exception?.message, Toast.LENGTH_LONG).show()
                 }
             }

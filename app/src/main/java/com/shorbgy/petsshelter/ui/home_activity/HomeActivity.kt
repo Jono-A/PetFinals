@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.firebase.auth.FirebaseAuth
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.db.PetDatabase
@@ -34,7 +35,7 @@ class HomeActivity : AppCompatActivity(), ChipNavigationBar.OnItemSelectedListen
 
         val db = PetDatabase.getDatabase(this)
         val repository = PetRepository(db)
-        val factory = HomeViewModelFactory(repository)
+        val factory = HomeViewModelFactory(repository, FirebaseAuth.getInstance().currentUser!!.uid)
         viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
         navView = findViewById(R.id.nav_view)
