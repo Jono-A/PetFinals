@@ -61,21 +61,29 @@ class HomeActivity : AppCompatActivity(), ChipNavigationBar.OnItemSelectedListen
                 navController.popBackStack()
                 navController.navigate(R.id.favouriteFragment)
             }
+            R.id.menu_profile -> {
+                navController.popBackStack()
+                navController.navigate(R.id.profileFragment)
+            }
         }
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
-            //Image Uri will not be null for RESULT_OK
-            val fileUri = data?.data
-            viewModel.imageMutableLiveData.postValue(fileUri)
+        when (resultCode) {
+            Activity.RESULT_OK -> {
+                //Image Uri will not be null for RESULT_OK
+                val fileUri = data?.data
+                viewModel.imageMutableLiveData.postValue(fileUri)
 
-        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+            }
+            ImagePicker.RESULT_ERROR -> {
+                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

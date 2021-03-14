@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.FragmentShareBinding
 import com.shorbgy.petsshelter.pojo.Pet
@@ -95,7 +96,7 @@ class ShareFragment : Fragment() {
                         if (uri != null) {
                             val id: String = Calendar.getInstance().timeInMillis.toString()
                             val name: String = binding.petName.text.toString()
-                            val owner = ""
+                            val owner = FirebaseAuth.getInstance().currentUser!!.email
                             val dateOfBirth: String = binding.dob.text.toString()
                             val gender: String = gender
                             val age: String = binding.age.text.toString()

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -29,8 +30,11 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
     private val petStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Pets")
 
     private val pets = mutableListOf<Pet>()
+    private val oneUserPets = mutableListOf<Pet>()
+
 
     val petsMutableLiveData = MutableLiveData<MutableList<Pet>>()
+    val oneUserPetsMutableLiveData = MutableLiveData<MutableList<Pet>>()
     val usersMutableLiveData = MutableLiveData<User>()
 
 
@@ -69,7 +73,8 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
     }
 
     fun sharePet(pet: Pet){
-        petReference.child(pet.id!!).setValue(pet).addOnCompleteListener {
+        petReference.child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .child(pet.id!!).setValue(pet).addOnCompleteListener {
             sharePetTaskMutableLiveData.postValue(it)
         }
     }
@@ -78,9 +83,13 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
         val reference = FirebaseDatabase.getInstance().getReference("Pets")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+
                 snapshot.children.forEach { item ->
-                    val pet = item.getValue(Pet::class.java)
-                    pets.add(pet!!)
+                    Log.d(TAG, "onDataChange: ${item.key.toString()}")
+                    snapshot.child(item.key.toString()).children.forEach{ posts->
+                        val pet = posts.getValue(Pet::class.java)
+                        pets.add(pet!!)
+                    }
                 }
 
                 petsMutableLiveData.postValue(pets)
@@ -90,6 +99,27 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
                 Log.d(TAG, "onCancelled: ${error.message}")
             }
         })
+    }
+
+    fun getPetsForOneUser(uid: String){
+        if (oneUserPets.isEmpty()) {
+            val reference = FirebaseDatabase.getInstance().getReference("Pets")
+            reference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    snapshot.child(uid).children.forEach { posts ->
+                        val pet = posts.getValue(Pet::class.java)
+                        oneUserPets.add(pet!!)
+                    }
+
+                    oneUserPetsMutableLiveData.postValue(oneUserPets)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d(TAG, "onCancelled: ${error.message}")
+                }
+            })
+        }
     }
 
     private fun getUser(){

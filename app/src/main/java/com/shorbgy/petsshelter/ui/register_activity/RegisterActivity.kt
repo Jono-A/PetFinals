@@ -89,6 +89,7 @@ class RegisterActivity : AppCompatActivity() {
                     userMap["username"] = binding.etUsername.text.toString()
                     userMap["phone"] = binding.etPhone.text.toString()
                     userMap["image_url"] = ""
+                    userMap["uid"] = FirebaseAuth.getInstance().currentUser!!.uid
 
                     viewModel.createUser(FirebaseAuth.getInstance().currentUser!!.uid, userMap)
                         .addOnCompleteListener{

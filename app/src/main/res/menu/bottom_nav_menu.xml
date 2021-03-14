@@ -18,7 +18,13 @@
         app:cnb_iconColor="#FFF"
         app:cnb_textColor="#FFF"/>
 
-
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_person"
+        android:title="@string/profile"
+        app:cnb_backgroundColor="#FF782B"
+        app:cnb_iconColor="#FFF"
+        app:cnb_textColor="#FFF"/>
 
 
 </menu>

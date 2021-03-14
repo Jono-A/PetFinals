@@ -45,4 +45,7 @@
     <string name="facebook_app_id">251984249746021</string>
     <string name="fb_login_protocol_scheme">fb251984249746021</string>
     <string name="sign_out">Sign Out</string>
+    <string name="profile">Profile</string>
+    <string name="update">Update</string>
+    <string name="settings">Settings</string>
 </resources>

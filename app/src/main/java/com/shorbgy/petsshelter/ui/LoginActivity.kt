@@ -186,6 +186,7 @@ class LoginActivity : AppCompatActivity() {
     private fun createUser(){
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userMap: HashMap<String, Any?> = HashMap()
+        userMap["uid"] = currentUser?.uid
         userMap["email"] = currentUser?.email
         userMap["image_url"] = currentUser?.photoUrl.toString()
         userMap["phone"] = "None"
