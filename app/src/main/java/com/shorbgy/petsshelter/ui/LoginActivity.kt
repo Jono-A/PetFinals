@@ -190,10 +190,13 @@ class LoginActivity : AppCompatActivity() {
         userMap["email"] = currentUser?.email
         userMap["image_url"] = currentUser?.photoUrl.toString()
         userMap["phone"] = "None"
+        userMap["address"] = "None"
         userMap["username"] = currentUser?.email?.replaceAfter("@", "")
             ?.replace("@", "")
-        userDatabaseReference.child(currentUser!!.uid)
-            .setValue(userMap)
+        Log.d(TAG, "createUser: ${userDatabaseReference.child(currentUser!!.uid).key}")
+        userDatabaseReference.child(currentUser.uid)
+                .setValue(userMap)
+
     }
 
     private fun loginWithEmailAndPassword(email: String, password: String){

@@ -18,10 +18,12 @@ data class Pet(
     val age: String? = null,
     val breed: String? = null,
     val about: String? = null,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val ownerId: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -43,6 +45,8 @@ data class Pet(
         parcel.writeString(breed)
         parcel.writeString(about)
         parcel.writeString(imageUrl)
+        parcel.writeString(owner)
+        parcel.writeString(ownerId)
     }
 
     override fun describeContents(): Int {

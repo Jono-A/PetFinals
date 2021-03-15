@@ -134,6 +134,32 @@
                 android:inputType="phone" />
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_6sdp"
+            app:cardBackgroundColor="@color/colorTextInputBackground"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_location"
+                android:drawablePadding="12dp"
+                android:hint="@string/address"
+                android:imeOptions="actionNext"
+                android:minWidth="320dp"
+                android:minHeight="45dp"
+                android:singleLine="true" />
+        </androidx.cardview.widget.CardView>
+
 
     </LinearLayout>
 </layout>

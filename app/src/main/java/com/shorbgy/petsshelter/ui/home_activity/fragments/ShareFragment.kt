@@ -103,8 +103,12 @@ class ShareFragment : Fragment() {
                             val breed: String = binding.breed.text.toString()
                             val about: String = binding.about.text.toString()
                             val imageUrl: String = uri.result.toString()
+                            val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
 
-                            val pet = Pet(0, id, name, owner, dateOfBirth, gender, age, breed, about, imageUrl)
+                            val pet = Pet(0, id, name,
+                                owner, dateOfBirth, gender,
+                                age, breed, about,
+                                imageUrl, uid)
 
                             viewModel.sharePet(pet)
 

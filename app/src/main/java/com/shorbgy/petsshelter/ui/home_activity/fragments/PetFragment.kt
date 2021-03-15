@@ -1,15 +1,14 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
-import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.FragmentPetBinding
 import com.shorbgy.petsshelter.pojo.Pet
@@ -43,11 +42,22 @@ class PetFragment : Fragment() {
         binding.gender.text = pet?.gender
         binding.about.text = pet?.about
         binding.adoptBtn.text = "Adopt ${pet?.name} Now!"
+        binding.ownerTv.text = pet?.owner
 
         if (pet?.gender?.toLowerCase(Locale.ROOT) == "male"){
             binding.genderIcon.setImageResource(R.mipmap.male)
         }else{
             binding.genderIcon.setImageResource(R.mipmap.female)
+        }
+
+        if (pet?.ownerId.equals(FirebaseAuth.getInstance().currentUser!!.uid)){
+            binding.buttons.visibility = View.GONE
+            binding.ownerLabel.visibility = View.GONE
+            binding.ownerTv.visibility = View.GONE
+        }else{
+            binding.buttons.visibility = View.VISIBLE
+            binding.ownerLabel.visibility = View.VISIBLE
+            binding.ownerTv.visibility = View.VISIBLE
         }
 
         Glide.with(this)
@@ -57,12 +67,13 @@ class PetFragment : Fragment() {
         checkPets()
 
         binding.favouriteBtn.setOnClickListener{
-            if (!petIds.contains(pet?.id)) {
-                viewModel.insertPet(pet!!)
-                Snackbar.make(requireView(), "${pet.name} Inserted To Favourite", Snackbar.LENGTH_SHORT).show()
-            }else{
-                Snackbar.make(requireView(), "Already Exist", Snackbar.LENGTH_SHORT).show()
-            }
+        }
+
+        binding.ownerTv.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putString("owner_id", pet?.ownerId)
+            bundle.putBoolean("current_user", false)
+            findNavController().navigate(R.id.action_petFragment_to_profileFragment, bundle)
         }
 
         return binding.root

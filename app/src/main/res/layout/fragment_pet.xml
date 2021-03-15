@@ -184,7 +184,7 @@
                         android:layout_marginTop="12dp"
                         android:text="@string/about_label"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/about"
@@ -192,11 +192,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:text="@string/about"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/owner_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/owner"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/owner_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@drawable/ic_person"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_4sdp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

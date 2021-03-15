@@ -31,7 +31,11 @@
         android:id="@+id/petFragment"
         android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.PetFragment"
         android:label="fragment_pet"
-        tools:layout="@layout/fragment_pet" />
+        tools:layout="@layout/fragment_pet" >
+        <action
+            android:id="@+id/action_petFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shareFragment"
         android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.ShareFragment"

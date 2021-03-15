@@ -30,12 +30,10 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
     private val petStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Pets")
 
     private val pets = mutableListOf<Pet>()
-    private val oneUserPets = mutableListOf<Pet>()
-
 
     val petsMutableLiveData = MutableLiveData<MutableList<Pet>>()
-    val oneUserPetsMutableLiveData = MutableLiveData<MutableList<Pet>>()
     val usersMutableLiveData = MutableLiveData<User>()
+    val ownerMutableLiveData = MutableLiveData<User>()
 
 
     val uploadImageTaskMutableLiveData = MutableLiveData<Task<Uri>?>()
@@ -83,6 +81,7 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
         val reference = FirebaseDatabase.getInstance().getReference("Pets")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                pets.clear()
 
                 snapshot.children.forEach { item ->
                     Log.d(TAG, "onDataChange: ${item.key.toString()}")
@@ -92,6 +91,9 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
                     }
                 }
 
+                pets.sortBy {
+                    it.id?.toLong()
+                }
                 petsMutableLiveData.postValue(pets)
             }
 
@@ -101,26 +103,6 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
         })
     }
 
-    fun getPetsForOneUser(uid: String){
-        if (oneUserPets.isEmpty()) {
-            val reference = FirebaseDatabase.getInstance().getReference("Pets")
-            reference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    snapshot.child(uid).children.forEach { posts ->
-                        val pet = posts.getValue(Pet::class.java)
-                        oneUserPets.add(pet!!)
-                    }
-
-                    oneUserPetsMutableLiveData.postValue(oneUserPets)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d(TAG, "onCancelled: ${error.message}")
-                }
-            })
-        }
-    }
 
     private fun getUser(){
         userReference.child(uid).addValueEventListener(object : ValueEventListener {
@@ -134,6 +116,23 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
                 Log.d(TAG, "onCancelled: ${error.message}")
             }
         })
+    }
+
+    fun getUserById(ownerId: String){
+        userReference.child(ownerId).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                ownerMutableLiveData.postValue(user)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "onCancelled: ${error.message}")
+            }
+        })
+    }
+
+    fun updateUserData(uid: String, userMap: Map<String, Any>): Task<Void>{
+        return userReference.child(uid).updateChildren(userMap)
     }
 
     fun insertPet(pet: Pet) = viewModelScope.launch{

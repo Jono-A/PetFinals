@@ -54,15 +54,15 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
 
     // Live Data & View Model
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-database-ktx:19.6.0'
+    implementation 'com.google.firebase:firebase-database-ktx:19.7.0'
     implementation 'com.google.firebase:firebase-storage-ktx:19.2.1'
     implementation 'com.google.firebase:firebase-auth-ktx:20.0.3'
     // Import the BoM for the Firebase platform
@@ -100,6 +100,9 @@ dependencies {
 
     // Google Play Service
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    // TouchImageView
+    implementation 'com.github.MikeOrtiz:TouchImageView:3.0.3'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

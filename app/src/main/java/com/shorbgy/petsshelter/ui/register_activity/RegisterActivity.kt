@@ -46,6 +46,9 @@ class RegisterActivity : AppCompatActivity() {
                 TextUtils.isEmpty(binding.etUsername.text) -> {
                     Toast.makeText(this, "Please Enter Username", Toast.LENGTH_SHORT).show()
                 }
+                TextUtils.isEmpty(binding.etAddress.text) -> {
+                    Toast.makeText(this, "Please Enter Your Address", Toast.LENGTH_SHORT).show()
+                }
                 TextUtils.isEmpty(binding.etPhone.text) -> {
                     Toast.makeText(this, "Please Enter Your Phone Number", Toast.LENGTH_SHORT).show()
                 }
@@ -88,6 +91,7 @@ class RegisterActivity : AppCompatActivity() {
                     userMap["email"] = binding.etEmail.text.toString()
                     userMap["username"] = binding.etUsername.text.toString()
                     userMap["phone"] = binding.etPhone.text.toString()
+                    userMap["address"] = binding.etAddress.text.toString()
                     userMap["image_url"] = ""
                     userMap["uid"] = FirebaseAuth.getInstance().currentUser!!.uid
 
