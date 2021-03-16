@@ -29,7 +29,6 @@ class ProfileFragment : Fragment(){
         (requireActivity() as HomeActivity).toolbar.visibility = View.VISIBLE
         (requireActivity() as HomeActivity).navView.visibility = View.VISIBLE
 
-        (requireActivity() as HomeActivity).toolbar.title = "My Profile"
 
 
         if (arguments!=null) {
@@ -38,11 +37,13 @@ class ProfileFragment : Fragment(){
         }
 
         uid = if (isCurrentUserProfile){
+            (requireActivity() as HomeActivity).toolbar.title = "My Profile"
             setHasOptionsMenu(true)
             FirebaseAuth.getInstance().uid.toString()
         }else{
             (requireActivity() as HomeActivity).navView.visibility = View.GONE
-            "TODO"
+            (requireActivity() as HomeActivity).toolbar.title = "Owner Profile"
+            ""
         }
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)

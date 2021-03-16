@@ -40,6 +40,9 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.signUpBtn.setOnClickListener {
             when {
+                fileUri == null -> {
+                    Toast.makeText(this, "Please Pick Image", Toast.LENGTH_SHORT).show()
+                }
                 TextUtils.isEmpty(binding.etEmail.text) -> {
                     Toast.makeText(this, "Please Enter Your Email", Toast.LENGTH_SHORT).show()
                 }

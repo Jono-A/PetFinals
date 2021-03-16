@@ -21,8 +21,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.ActivityLoginBinding
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
@@ -151,9 +150,6 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     createUser()
-                    val intent = Intent(this, HomeActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -171,9 +167,6 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     createUser()
-                    val intent = Intent(this, HomeActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -193,9 +186,36 @@ class LoginActivity : AppCompatActivity() {
         userMap["address"] = "None"
         userMap["username"] = currentUser?.email?.replaceAfter("@", "")
             ?.replace("@", "")
-        Log.d(TAG, "createUser: ${userDatabaseReference.child(currentUser!!.uid).key}")
-        userDatabaseReference.child(currentUser.uid)
-                .setValue(userMap)
+        userDatabaseReference.child(currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d(TAG, "onDataChange: ${snapshot.hasChildren()}")
+                    if (!snapshot.hasChildren()) {
+                        userDatabaseReference.child(currentUser.uid)
+                            .setValue(userMap).addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    val intent =
+                                        Intent(this@LoginActivity, HomeActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    startActivity(intent)
+                                } else {
+                                    Log.d(TAG, "onDataChange: ${it.exception?.message}")
+                                }
+                            }
+
+                    }else{
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d(TAG, "onCancelled: ${error.message}")
+                }
+            })
+
 
     }
 
