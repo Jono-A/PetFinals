@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.shorbgy.petsshelter.R
 import com.shorbgy.petsshelter.databinding.FragmentPetBinding
@@ -20,8 +22,6 @@ class PetFragment : Fragment() {
 
     private lateinit var binding: FragmentPetBinding
     private lateinit var viewModel: HomeViewModel
-
-    private val petIds = mutableSetOf<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -64,9 +64,19 @@ class PetFragment : Fragment() {
             .load(pet?.imageUrl)
             .into(binding.petImage)
 
-        checkPets()
-
         binding.favouriteBtn.setOnClickListener{
+
+            viewModel.insertFavouritePet(pet!!).addOnCompleteListener{
+                if (it.isSuccessful) {
+                    Snackbar.make(
+                        requireView(),
+                        "Added Successfully to Favourite",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), it.exception?.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         binding.ownerTv.setOnClickListener{
@@ -77,15 +87,6 @@ class PetFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun checkPets(){
-        viewModel.getPetsFromLocalDb().observe(viewLifecycleOwner, {
-            for(pet in it){
-                petIds.add(pet.id!!)
-            }
-        })
-
     }
 
 }

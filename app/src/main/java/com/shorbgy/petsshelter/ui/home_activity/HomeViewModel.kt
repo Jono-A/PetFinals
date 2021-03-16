@@ -4,7 +4,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -13,12 +12,10 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.pojo.User
-import com.shorbgy.petsshelter.repository.PetRepository
-import kotlinx.coroutines.launch
 import java.util.*
 
 
-class HomeViewModel(private val petRepository: PetRepository, private val uid: String): ViewModel(){
+class HomeViewModel(private val uid: String): ViewModel(){
 
     companion object {
         private const val TAG = "HomeViewModel"
@@ -27,11 +24,14 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
 
     private var petReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Pets")
     private var userReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+    private var favReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Favourite")
     private val petStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Pets")
 
     private val pets = mutableListOf<Pet>()
+    private val favPets = mutableListOf<Pet>()
 
     val petsMutableLiveData = MutableLiveData<MutableList<Pet>>()
+    val favPetsMutableLiveData = MutableLiveData<MutableList<Pet>>()
     val usersMutableLiveData = MutableLiveData<User>()
     val ownerMutableLiveData = MutableLiveData<User>()
 
@@ -44,9 +44,8 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
     init {
         getPets()
         getUser()
+        getFavouritePets()
     }
-
-
 
     fun uploadImage(fileUri: Uri?) {
         val filePath: StorageReference = petStorageReference
@@ -135,13 +134,36 @@ class HomeViewModel(private val petRepository: PetRepository, private val uid: S
         return userReference.child(uid).updateChildren(userMap)
     }
 
-    fun insertPet(pet: Pet) = viewModelScope.launch{
-        petRepository.insertPet(pet)
+    fun insertFavouritePet(pet: Pet): Task<Void>{
+        return favReference.child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .child(pet.id!!).setValue(pet)
     }
 
-    fun deletePet(pet: Pet) = viewModelScope.launch {
-        petRepository.deletePet(pet)
+    fun deletePetFromFavourite(pet: Pet): Task<Void>{
+        return favReference.child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .child(pet.id!!).removeValue()
     }
 
-    fun getPetsFromLocalDb() = petRepository.getPets()
+    private fun getFavouritePets(){
+        val reference = FirebaseDatabase.getInstance().getReference("Favourite")
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                favPets.clear()
+
+                snapshot.children.forEach { item ->
+                    Log.d(TAG, "onDataChange: ${item.key.toString()}")
+                    snapshot.child(item.key.toString()).children.forEach{ posts->
+                        val pet = posts.getValue(Pet::class.java)
+                        favPets.add(pet!!)
+                    }
+                }
+
+                favPetsMutableLiveData.postValue(favPets)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "onCancelled: ${error.message}")
+            }
+        })
+    }
 }

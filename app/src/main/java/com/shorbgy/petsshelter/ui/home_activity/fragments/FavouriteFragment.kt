@@ -1,6 +1,7 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,10 @@ import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.OnPetsItemSelected
 
 class FavouriteFragment : Fragment(), OnPetsItemSelected{
+
+    companion object{
+        private const val TAG = "FavouriteFragment"
+    }
 
     lateinit var binding: FragmentFavouriteBinding
     lateinit var viewModel: HomeViewModel
@@ -54,12 +59,14 @@ class FavouriteFragment : Fragment(), OnPetsItemSelected{
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.adapterPosition
                 val pet = adapter.differ.currentList[pos]
-                viewModel.deletePet(pet)
-
-                Snackbar.make(requireView(), "Deleted Successfully", Snackbar.LENGTH_LONG)
-                        .setAction("Undo") {
-                    viewModel.insertPet(pet)
-                }.show()
+                viewModel.deletePetFromFavourite(pet).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        Snackbar.make(requireView(), "Deleted Successfully", Snackbar.LENGTH_SHORT).show()
+                        adapter.notifyDataSetChanged()
+                    }else{
+                        Log.d(TAG, "onSwiped: ${it.exception?.message}")
+                    }
+                }
             }
         }
 
@@ -69,11 +76,9 @@ class FavouriteFragment : Fragment(), OnPetsItemSelected{
     }
 
     private fun getPets(){
-        viewModel.getPetsFromLocalDb().observe(viewLifecycleOwner, {
-            adapter.differ.submitList(it.reversed())
-            adapter.notifyDataSetChanged()
+        viewModel.favPetsMutableLiveData.observe(viewLifecycleOwner, {
+            adapter.differ.submitList(it)
         })
-
     }
     override fun onItemSelected(pos: Int) {
 
