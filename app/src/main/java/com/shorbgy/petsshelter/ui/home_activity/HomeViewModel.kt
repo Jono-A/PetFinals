@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.shorbgy.petsshelter.pojo.Pet
 import com.shorbgy.petsshelter.pojo.User
@@ -21,6 +22,7 @@ class HomeViewModel(private val uid: String): ViewModel(){
         private const val TAG = "HomeViewModel"
     }
 
+    private val usersStorageReference: StorageReference = FirebaseStorage.getInstance().getReference("Users")
 
     private var petReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Pets")
     private var userReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
@@ -36,7 +38,8 @@ class HomeViewModel(private val uid: String): ViewModel(){
     val ownerMutableLiveData = MutableLiveData<User>()
 
 
-    val uploadImageTaskMutableLiveData = MutableLiveData<Task<Uri>?>()
+    val uploadPetImageTaskMutableLiveData = MutableLiveData<Task<Uri>?>()
+    val uploadUserImageTaskMutableLiveData = MutableLiveData<Task<Uri>?>()
     val sharePetTaskMutableLiveData = MutableLiveData<Task<Void>?>()
     val imageMutableLiveData = MutableLiveData<Uri?>()
 
@@ -47,7 +50,7 @@ class HomeViewModel(private val uid: String): ViewModel(){
         getFavouritePets()
     }
 
-    fun uploadImage(fileUri: Uri?) {
+    fun uploadPetImage(fileUri: Uri?) {
         val filePath: StorageReference = petStorageReference
             .child(
                 Objects.requireNonNull(Calendar.getInstance().timeInMillis
@@ -64,11 +67,35 @@ class HomeViewModel(private val uid: String): ViewModel(){
                     }
                     filePath.downloadUrl
                 }.addOnCompleteListener{
-                    uploadImageTaskMutableLiveData.postValue(it)
+                    uploadPetImageTaskMutableLiveData.postValue(it)
                 }
             }
     }
 
+    fun uploadUserImage(fileUri: Uri?) {
+        val filePath: StorageReference = usersStorageReference
+            .child(
+                Objects.requireNonNull(
+                    "${FirebaseAuth.getInstance().currentUser?.uid}.jpg"
+                )
+            )
+
+        val uploadTask = filePath.putFile(fileUri!!)
+        uploadTask.addOnFailureListener { e: Exception ->
+            Log.d(TAG, "uploadImage: " + e.message)
+        }
+            .addOnSuccessListener { _: UploadTask.TaskSnapshot? ->
+                uploadTask.continueWithTask { task: Task<UploadTask.TaskSnapshot?> ->
+                    if (!task.isSuccessful) {
+                        throw Objects.requireNonNull(task.exception) as Throwable
+                    }
+                    filePath.downloadUrl
+                }.addOnCompleteListener {
+                    uploadUserImageTaskMutableLiveData.postValue(it)
+                }
+
+            }
+    }
     fun sharePet(pet: Pet){
         petReference.child(FirebaseAuth.getInstance().currentUser!!.uid)
             .child(pet.id!!).setValue(pet).addOnCompleteListener {
@@ -146,16 +173,14 @@ class HomeViewModel(private val uid: String): ViewModel(){
 
     private fun getFavouritePets(){
         val reference = FirebaseDatabase.getInstance().getReference("Favourite")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 favPets.clear()
 
-                snapshot.children.forEach { item ->
-                    Log.d(TAG, "onDataChange: ${item.key.toString()}")
-                    snapshot.child(item.key.toString()).children.forEach{ posts->
-                        val pet = posts.getValue(Pet::class.java)
-                        favPets.add(pet!!)
-                    }
+                snapshot.children.forEach {
+                    val pet = it.getValue(Pet::class.java)
+                    favPets.add(pet!!)
                 }
 
                 favPetsMutableLiveData.postValue(favPets)

@@ -67,6 +67,8 @@ class ProfileFragment : Fragment(){
                 imageUrl = it.image_url.toString()
                 Glide.with(requireContext())
                     .load(it.image_url)
+                    .placeholder(R.mipmap.person_placeholdr)
+                    .fitCenter()
                     .into(binding.proProfileImg)
             })
         }else{

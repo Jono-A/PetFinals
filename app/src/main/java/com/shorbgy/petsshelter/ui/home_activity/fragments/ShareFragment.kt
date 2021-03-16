@@ -89,9 +89,9 @@ class ShareFragment : Fragment() {
                     dialog.show()
 
 
-                    viewModel.uploadImage(imageUri)
+                    viewModel.uploadPetImage(imageUri)
 
-                    viewModel.uploadImageTaskMutableLiveData.observe(viewLifecycleOwner) { uri ->
+                    viewModel.uploadPetImageTaskMutableLiveData.observe(viewLifecycleOwner) { uri ->
 
                         if (uri != null) {
                             val id: String = Calendar.getInstance().timeInMillis.toString()
@@ -122,7 +122,7 @@ class ShareFragment : Fragment() {
                                             Snackbar.LENGTH_SHORT).show()
 
                                         viewModel.sharePetTaskMutableLiveData.postValue(null)
-                                        viewModel.uploadImageTaskMutableLiveData.postValue(null)
+                                        viewModel.uploadPetImageTaskMutableLiveData.postValue(null)
                                         viewModel.imageMutableLiveData.postValue(null)
 
                                         findNavController().popBackStack()

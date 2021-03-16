@@ -2,6 +2,7 @@ package com.shorbgy.petsshelter.utils
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.view.ViewGroup
 import android.view.Window
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ class ImageDialog {
         settingsDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 800)
         imageView.layoutParams = params
+        imageView.setBackgroundColor(Color.BLACK)
         imageView.requestLayout()
         Glide.with(context)
             .load(imageUrl)
