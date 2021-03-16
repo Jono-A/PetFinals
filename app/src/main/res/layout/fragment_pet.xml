@@ -228,7 +228,7 @@
                     <com.ornach.nobobutton.NoboButton
                         android:id="@+id/adopt_btn"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         app:nb_backgroundColor="@color/teal_200"
                         app:nb_borderColor="#FFFFFF"
                         app:nb_borderWidth="2dp"
@@ -240,18 +240,11 @@
                         app:nb_textColor="#FFF"
                         app:nb_textSize="14sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
 
                         <com.ornach.nobobutton.NoboButton
                             android:id="@+id/favourite_btn"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             app:nb_backgroundColor="#B83CC3"
                             app:nb_borderColor="#FFFFFF"
                             app:nb_borderWidth="2dp"
@@ -261,26 +254,8 @@
                             app:nb_radius="5dp"
                             app:nb_text="Favourite"
                             app:nb_textColor="#FFF"
-                            app:nb_textSize="14sp" />
-
-                        <com.ornach.nobobutton.NoboButton
-                            android:id="@+id/book_a_visit_btn"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            app:nb_backgroundColor="#333"
-                            app:nb_borderColor="#FFFFFF"
-                            app:nb_borderWidth="2dp"
-                            app:nb_drawableResource="@drawable/ic_location"
-                            app:nb_focusColor="#B83CC3"
-                            app:nb_fontIcon="&#xf291;"
-                            app:nb_radius="5dp"
-                            app:nb_text="Book a Visit"
-                            app:nb_textColor="#FFF"
-                            app:nb_textSize="14sp" />
-
-                    </LinearLayout>
+                            app:nb_textSize="14sp"
+                            android:layout_marginTop="@dimen/_4sdp"/>
 
                 </LinearLayout>
 

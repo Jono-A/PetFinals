@@ -1,12 +1,14 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -18,12 +20,17 @@ import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import java.util.*
 
+
 class PetFragment : Fragment() {
 
     private lateinit var binding: FragmentPetBinding
     private lateinit var viewModel: HomeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
 
         (requireActivity() as HomeActivity).toolbar.visibility = View.GONE
@@ -64,6 +71,16 @@ class PetFragment : Fragment() {
             .load(pet?.imageUrl)
             .into(binding.petImage)
 
+        binding.adoptBtn.setOnClickListener{
+
+            val email = pet?.owner.toString()
+            val subject = "Adopting ${pet?.name}"
+            val body = " Hi There, I Want To Adopt Your Pet '${pet?.name}', " +
+                    "Please If You Interested, Let Me Know."
+
+            sendEmail(email, subject, body)
+        }
+
         binding.favouriteBtn.setOnClickListener{
 
             viewModel.insertFavouritePet(pet!!).addOnCompleteListener{
@@ -89,4 +106,20 @@ class PetFragment : Fragment() {
         return binding.root
     }
 
+    private fun sendEmail(email: String, subject: String, body: String) {
+        val i = Intent(Intent.ACTION_SEND)
+        i.type = "message/rfc822"
+        i.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        i.putExtra(Intent.EXTRA_SUBJECT, subject)
+        i.putExtra(Intent.EXTRA_TEXT, body)
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."))
+        } catch (ex: ActivityNotFoundException) {
+            Toast.makeText(
+                requireContext(),
+                "There are no email clients installed.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }
