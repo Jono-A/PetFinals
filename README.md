@@ -22,3 +22,7 @@ Here's the specifics of what I used in this app:
 ### Overview
 
 ![20210317_203123](https://user-images.githubusercontent.com/41129769/111533362-5d37f500-876f-11eb-9c7e-7c8f7934952b.gif)
+
+### Upload Pet
+
+![20210317_210741](https://user-images.githubusercontent.com/41129769/111533808-de8f8780-876f-11eb-82fc-2c567d698dbf.gif)
