@@ -21,4 +21,4 @@ Here's the specifics of what I used in this app:
 
 ### Overview
 
-![GIF](https://giphy.com/gifs/4wPU1Ag9TLIqKdW04G/html5)
+![GIF](https://giphy.com/gifs/4wPU1Ag9TLIqKdW04G?utm_source=media-link&utm_medium=landing&utm_campaign=Media%20Links&utm_term=)
