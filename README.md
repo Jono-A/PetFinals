@@ -21,7 +21,7 @@ Here's the specifics of what I used in this app:
 
 ### Overview
 
-![Screen Record From App](https://media.giphy.com/media/Bd6duOIiOvvf8gQFe3/giphy.gif)
+![Screen Record From App](https://media.giphy.com/media/4wPU1Ag9TLIqKdW04G/giphy.gif)
 
 ### Upload Pet
 
