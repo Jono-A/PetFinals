@@ -21,4 +21,4 @@ Here's the specifics of what I used in this app:
 
 ### Overview
 
-![Screen Record From App](https://media.giphy.com/media/4wPU1Ag9TLIqKdW04G/giphy.gif)
+[]!(https://media.giphy.com/media/4wPU1Ag9TLIqKdW04G/giphy.gif)
