@@ -1,5 +1,6 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -26,6 +27,7 @@ class PetFragment : Fragment() {
     private lateinit var binding: FragmentPetBinding
     private lateinit var viewModel: HomeViewModel
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +46,7 @@ class PetFragment : Fragment() {
 
         binding.petName.text = pet?.name
         binding.dob.text = pet?.dateOfBirth
-        binding.age.text = pet?.age
+        binding.age.text = "${pet?.age} Months"
         binding.breed.text = pet?.breed
         binding.gender.text = pet?.gender
         binding.about.text = pet?.about
@@ -61,10 +63,12 @@ class PetFragment : Fragment() {
             binding.buttons.visibility = View.GONE
             binding.ownerLabel.visibility = View.GONE
             binding.ownerTv.visibility = View.GONE
+            binding.deleteBtn.visibility = View.VISIBLE
         }else{
             binding.buttons.visibility = View.VISIBLE
             binding.ownerLabel.visibility = View.VISIBLE
             binding.ownerTv.visibility = View.VISIBLE
+            binding.deleteBtn.visibility = View.GONE
         }
 
         Glide.with(this)
@@ -79,6 +83,17 @@ class PetFragment : Fragment() {
                     "Please If You Interested, Let Me Know."
 
             sendEmail(email, subject, body)
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            viewModel.deletePet(pet!!).addOnCompleteListener {
+                if (it.isSuccessful){
+                    Snackbar.make(requireView(), "Pet Deleted Successfully", Snackbar.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }else{
+                    Toast.makeText(requireContext(), it.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         binding.favouriteBtn.setOnClickListener{

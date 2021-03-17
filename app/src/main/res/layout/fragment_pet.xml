@@ -259,6 +259,24 @@
 
                 </LinearLayout>
 
+                <com.ornach.nobobutton.NoboButton
+                    android:id="@+id/delete_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:nb_backgroundColor="@android:color/holo_red_light"
+                    app:nb_borderColor="#FFFFFF"
+                    app:nb_borderWidth="2dp"
+                    app:nb_drawableResource="@drawable/ic_home"
+                    app:nb_focusColor="#B83CC3"
+                    app:nb_fontIcon="&#xf291;"
+                    app:nb_radius="5dp"
+                    app:nb_text="Delete Pet"
+                    app:nb_textColor="#FFF"
+                    app:nb_textSize="14sp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:visibility="gone"/>
+
             </RelativeLayout>
 
 

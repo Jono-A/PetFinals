@@ -171,6 +171,11 @@ class HomeViewModel(private val uid: String): ViewModel(){
             .child(pet.id!!).removeValue()
     }
 
+    fun deletePet(pet: Pet): Task<Void>{
+        return petReference.child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .child(pet.id!!).removeValue()
+    }
+
     private fun getFavouritePets(){
         val reference = FirebaseDatabase.getInstance().getReference("Favourite")
             .child(FirebaseAuth.getInstance().currentUser!!.uid)

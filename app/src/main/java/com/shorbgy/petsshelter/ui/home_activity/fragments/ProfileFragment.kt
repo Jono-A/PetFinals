@@ -1,9 +1,16 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -12,6 +19,7 @@ import com.shorbgy.petsshelter.databinding.FragmentProfileBinding
 import com.shorbgy.petsshelter.ui.home_activity.HomeActivity
 import com.shorbgy.petsshelter.ui.home_activity.HomeViewModel
 import com.shorbgy.petsshelter.utils.ImageDialog
+
 
 class ProfileFragment : Fragment(){
 
@@ -24,7 +32,11 @@ class ProfileFragment : Fragment(){
 
     private var isCurrentUserProfile = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         (requireActivity() as HomeActivity).toolbar.visibility = View.VISIBLE
         (requireActivity() as HomeActivity).navView.visibility = View.VISIBLE
@@ -52,6 +64,40 @@ class ProfileFragment : Fragment(){
 
         binding.proProfileImg.setOnClickListener{
             ImageDialog().popupImageDialog(requireContext(), imageUrl)
+        }
+
+        binding.phoneTv.setOnClickListener {
+            if (!isCurrentUserProfile){
+                val dialog = AlertDialog.Builder(requireContext())
+
+                dialog.setTitle("Call")
+                dialog.setMessage("Do you want to call this guy?")
+                dialog.setPositiveButton("Yes"
+                ) { _, _ ->
+                    val permissionCheck =
+                        ContextCompat.checkSelfPermission(
+                            requireContext(),
+                            Manifest.permission.CALL_PHONE
+                        )
+
+                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(
+                            requireActivity(), arrayOf(Manifest.permission.CALL_PHONE),
+                            123
+                        )
+                    } else {
+                        startActivity(
+                            Intent(Intent.ACTION_CALL)
+                                .setData(Uri.parse("tel:${binding.phoneTv.text}"))
+                        )
+                    }
+                }
+
+                dialog.setNegativeButton("No"
+                ) { dia, _ -> dia.dismiss() }
+
+                dialog.show()
+            }
         }
 
         return binding.root
