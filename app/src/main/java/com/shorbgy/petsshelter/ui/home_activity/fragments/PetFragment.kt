@@ -1,6 +1,7 @@
 package com.shorbgy.petsshelter.ui.home_activity.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -86,14 +87,26 @@ class PetFragment : Fragment() {
         }
 
         binding.deleteBtn.setOnClickListener {
-            viewModel.deletePet(pet!!).addOnCompleteListener {
-                if (it.isSuccessful){
-                    Snackbar.make(requireView(), "Pet Deleted Successfully", Snackbar.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
-                }else{
-                    Toast.makeText(requireContext(), it.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+            val dialog = AlertDialog.Builder(requireContext())
+
+            dialog.setTitle("Delete")
+            dialog.setMessage("Do you want to delete this pet?")
+            dialog.setPositiveButton("Yes"
+            ) { _, _ ->
+                viewModel.deletePet(pet!!).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        Snackbar.make(requireView(), "Pet Deleted Successfully", Snackbar.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }else{
+                        Toast.makeText(requireContext(), it.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+
+            dialog.setNegativeButton("Cancel"
+            ) { dia, _ -> dia.dismiss() }
+
+            dialog.show()
         }
 
         binding.favouriteBtn.setOnClickListener{

@@ -2,10 +2,12 @@ package com.shorbgy.petsshelter.ui
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -18,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -78,9 +81,16 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Please Enter Your Password", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    loginWithEmailAndPassword(binding.etUsername.text.toString(), binding.etPassword.text.toString())
+                    loginWithEmailAndPassword(
+                        binding.etUsername.text.toString(),
+                        binding.etPassword.text.toString()
+                    )
                 }
             }
+        }
+
+        binding.buttonForgotPassword.setOnClickListener {
+            forgotPassword()
         }
 
         binding.facebookSignInButton.registerCallback(
@@ -196,15 +206,17 @@ class LoginActivity : AppCompatActivity() {
                                 if (it.isSuccessful) {
                                     val intent =
                                         Intent(this@LoginActivity, HomeActivity::class.java)
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    intent.addFlags(
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    )
                                     startActivity(intent)
                                 } else {
                                     Log.d(TAG, "onDataChange: ${it.exception?.message}")
                                 }
                             }
 
-                    }else{
+                    } else {
                         val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
@@ -239,5 +251,50 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, it.exception?.message, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun forgotPassword() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Forgot Password?")
+        val editText = EditText(this)
+        editText.hint = "Email Address"
+        builder.setView(editText)
+        builder.setPositiveButton(
+            "Confirm"
+        ) { _: DialogInterface?, _: Int ->
+            if (editText.text.toString().isEmpty()) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Please Enter Your Email Address", Toast.LENGTH_LONG
+                ).show()
+            } else {
+
+                val alertBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+                alertBuilder.setView(R.layout.progress)
+                val dialog: Dialog = alertBuilder.create()
+                dialog.setCanceledOnTouchOutside(false)
+                dialog.show()
+
+                auth.sendPasswordResetEmail(editText.text.toString())
+                    .addOnCompleteListener { task: Task<Void?> ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Please Check Your Email Address", Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Failed", Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        dialog.dismiss()
+                    }
+            }
+        }
+        builder.setNegativeButton(
+            "Cancel"
+        ) { dialog: DialogInterface, _: Int -> dialog.cancel() }
+        builder.create().show()
     }
 }
