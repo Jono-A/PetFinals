@@ -21,4 +21,4 @@ Here's the specifics of what I used in this app:
 
 ### Overview
 
-![GIF](https://s4.gifyu.com/images/20210317_203123.gif)
+![20210317_203123](https://user-images.githubusercontent.com/41129769/111533362-5d37f500-876f-11eb-9c7e-7c8f7934952b.gif)
