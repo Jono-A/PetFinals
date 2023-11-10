@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.HomeFragment"
+        android:name="com.example.petsshelter.ui.home_activity.fragments.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.FavouriteFragment"
+        android:name="com.example.petsshelter.ui.home_activity.fragments.FavouriteFragment"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" >
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/petFragment"
-        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.PetFragment"
+        android:name="com.example.petsshelter.ui.home_activity.fragments.PetFragment"
         android:label="fragment_pet"
         tools:layout="@layout/fragment_pet" >
         <action
@@ -38,12 +38,12 @@
     </fragment>
     <fragment
         android:id="@+id/shareFragment"
-        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.ShareFragment"
+        android:name="com.example.petsshelter.ui.home_activity.fragments.ShareFragment"
         android:label="fragment_share"
         tools:layout="@layout/fragment_share" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.ProfileFragment"
+        android:name="com.example.petsshelter.ui.home_activity.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.shorbgy.petsshelter.ui.home_activity.fragments.SettingsFragment"
+        android:name="com.example.petsshelter.ui.home_activity.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

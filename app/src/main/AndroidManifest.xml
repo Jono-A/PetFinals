@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.shorbgy.petsshelter">
+    package="com.example.petsshelter">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -16,9 +16,9 @@
         tools:ignore="AllowBackup">
 
 
-        <activity android:name=".ui.register_activity.RegisterActivity" />
-        <activity android:name=".ui.home_activity.HomeActivity" />
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name="com.example.petsshelter.ui.register_activity.RegisterActivity" />
+        <activity android:name="com.example.petsshelter.ui.home_activity.HomeActivity" />
+        <activity android:name="com.example.petsshelter.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
