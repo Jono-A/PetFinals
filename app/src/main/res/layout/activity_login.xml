@@ -37,7 +37,7 @@
                     android:layout_marginBottom="@dimen/_16sdp"
                     android:contentDescription="@string/logo"
                     android:scaleType="centerInside"
-                    app:srcCompat="@mipmap/logo" />
+                    app:srcCompat="@drawable/logo" />
 
                 <TextView
                     android:layout_width="wrap_content"
