@@ -63,7 +63,7 @@
                 android:layout_height="@dimen/_200sdp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/pet_gif"
-                android:src="@mipmap/pick_gif_placeholder"
+                android:src="@mipmap/ic_petplaceholder"
                 android:layout_marginTop="@dimen/_8sdp"/>
 
 
